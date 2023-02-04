@@ -1,5 +1,5 @@
 import { useRoutes } from 'react-router-dom';
-import routes from '@/router';
+import routes from '@/routers';
 
 function Layout() {
   const Outlet = useRoutes(routes);

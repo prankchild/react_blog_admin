@@ -1,9 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Menu, MenuProps } from 'antd';
-import { theme } from 'antd';
+import { Menu } from 'antd';
 import { PieChartOutlined } from '@ant-design/icons';
-import { log } from 'console';
 
 const menuItems = [
   {
@@ -49,6 +47,7 @@ const menuItems = [
 function LayoutMenu() {
   const location = useLocation();
   const navigate = useNavigate();
+
   // 获取刚进入页面时如若有嵌套则获取父元素
   const currentOpenKey = '/' + location.pathname.split('/')[1];
   const [defaultKey, setDefaultKey] = useState(location.pathname);

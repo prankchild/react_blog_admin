@@ -1,10 +1,17 @@
-import Layout from './layout';
+import { HashRouter } from 'react-router-dom';
+import Router from '@/routers';
+import AuthRouter from './routers/utils/authRouter';
 
 function App() {
   return (
     <div className="App">
-      <Layout></Layout>
+      {/* <Layout></Layout> */}
       {/* <Login></Login> */}
+      <HashRouter>
+        <AuthRouter>
+          <Router />
+        </AuthRouter>
+      </HashRouter>
     </div>
   );
 }
