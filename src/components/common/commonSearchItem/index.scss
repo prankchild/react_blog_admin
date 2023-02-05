@@ -1,0 +1,13 @@
+.search-item {
+  display: flex;
+  align-items: center;
+  margin-right: 32px;
+  .title {
+    color: #1e2226;
+    font-weight: bold;
+    margin-right: 16px;
+  }
+}
+.red {
+  color: red;
+}

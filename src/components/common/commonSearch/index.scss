@@ -1,0 +1,30 @@
+.common-search {
+  background: #fff;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 24px 20px 24px 20px;
+  border-bottom: 12px #f1f2f5 solid;
+  .search-condition {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    flex: 22;
+    align-items: center;
+  }
+  .search-button {
+    display: inline-flex;
+    justify-content: flex-end;
+    float: right;
+    text-align: right;
+    flex: 2;
+  }
+  :deep(.ant-input) {
+    width: 200px;
+  }
+  :deep(.ant-select) {
+    width: 200px;
+  }
+  :deep(.ant-input-affix-wrapper) {
+    width: 200px;
+  }
+}

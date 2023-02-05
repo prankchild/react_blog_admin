@@ -1,16 +1,17 @@
+import * as types from '@/store/mutation-types';
 import produce from 'immer';
 import { AnyAction } from 'redux';
 
 const globalState = {
-  num: 20,
+  token: '初始默认undefined',
 };
 
 // global reducer
 const global = (state = globalState, action: AnyAction) =>
   produce(state, (draftState) => {
     switch (action.type) {
-      case 'add':
-        draftState.num = action.num;
+      case types.SET_TOKEN:
+        draftState.token = action.token;
         break;
       default:
         return draftState;

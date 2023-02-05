@@ -1,23 +1,20 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { Button } from 'antd';
+import { setToken } from '@/store/modules/global/action';
 
 function Home(props: any) {
   console.log(props, 'props');
-
-  // 获取残酷数据
-  // const { num } = useSelector((state: { num: number }) => ({
-  //   num: state.num,
-  // }));
-  const dispatch = useDispatch();
+  const { token, setToken } = props;
   const editRedux = () => {
-    dispatch({ type: 'add', value: 100 });
+    setToken('我在改变token的数据');
   };
   return (
     <div className="">
-      {/* {num} */}
+      {token}
       <Button onClick={editRedux}>测试</Button>
     </div>
   );
 }
-
-export default Home;
+const mapStateToProps = (state: any) => state.global;
+const mapDispatchToProps = { setToken };
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
