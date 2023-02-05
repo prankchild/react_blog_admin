@@ -35,18 +35,22 @@ const routes = [
         path: '/home',
         element: <Home />,
       },
-      // {
-      //   path: '/basicInformation/roleManagement/roleList',
-      //   element: routeWithLoading(<RoleList />),
-      // },
-      // {
-      //   path: '/basicInformation/menuManagement/menuList',
-      //   element: routeWithLoading(<MenuList />),
-      // },
-      // {
-      //   path: '/articleManagement/articleList',
-      //   element: routeWithLoading(<ArticleList />),
-      // },
+      {
+        path: '/basicInformation/roleManagement/roleList',
+        element: routeWithLoading(<RoleList />),
+      },
+      {
+        path: '/basicInformation/menuManagement/menuList',
+        element: routeWithLoading(<MenuList />),
+      },
+      {
+        path: '/basicInformation/articleManagement/articleList',
+        element: routeWithLoading(<ArticleList />),
+      },
+      {
+        path: '/basicInformation/userManagement/userList',
+        element: routeWithLoading(<UserList />),
+      },
     ],
   },
   {

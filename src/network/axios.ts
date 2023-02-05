@@ -8,7 +8,7 @@ import axios, {
 import { getToken, saveToken, to2 } from '@/utils/util';
 
 // const apiBaseUrl: string = import.meta.env.VITE_APP_BASE_URL;
-const apiBaseUrl: string = 'http://127.0.0.1:5173/server/api';
+const apiBaseUrl: string = 'http://127.0.0.1:8111/server/api';
 const apiBaseUrlAuthor: string = import.meta.env.VITE_APP_BASE_URL_AUTHOR;
 const curEnv: string = import.meta.env.VITE_APP_ENV;
 
