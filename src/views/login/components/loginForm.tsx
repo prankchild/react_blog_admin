@@ -7,7 +7,9 @@ import { LoginResult } from '@/types/requestResult';
 import { InfoOutlined, UserOutlined } from '@ant-design/icons';
 import { saveToken } from '@/utils/util';
 
-const LoginForm: React.FC = () => {
+const LoginForm: React.FC = (props: any) => {
+  console.log(props, 'props');
+
   const navigate = useNavigate();
   const onFinish = async (form: LoginFormType) => {
     const result: LoginResult = await api.login(form);
