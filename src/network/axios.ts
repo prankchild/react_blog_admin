@@ -7,7 +7,8 @@ import axios, {
 } from 'axios';
 import { getToken, saveToken, to2 } from '@/utils/util';
 
-const apiBaseUrl: string = import.meta.env.VITE_APP_BASE_URL;
+// const apiBaseUrl: string = import.meta.env.VITE_APP_BASE_URL;
+const apiBaseUrl: string = 'http://127.0.0.1:5173/server/api';
 const apiBaseUrlAuthor: string = import.meta.env.VITE_APP_BASE_URL_AUTHOR;
 const curEnv: string = import.meta.env.VITE_APP_ENV;
 
@@ -56,8 +57,8 @@ class HttpRequest {
         if (!data.data && data.status === 200 && data.message) return data;
         if (!data.msg && data.message) data.msg = data.message;
         if (data instanceof Blob) return res;
-        const { status = 1, success = false, msg } = data;
-        if (status !== 200 && !success) {
+        const { code = 200, success = false, msg } = data;
+        if (code !== 200 && !success) {
           message.error(msg);
           return Promise.reject(msg);
         }

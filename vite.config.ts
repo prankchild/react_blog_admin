@@ -9,10 +9,10 @@ const viteConfig = ({ command, mode }: ConfigEnv): UserConfig => {
     plugins: [react()],
     server: {
       proxy: {
-        '/blog_server': {
+        '/server': {
           target: env.VITE_APP_BASE_URL_PROXY,
           changeOrigin: true,
-          //rewrite: (path) => path.replace(/^\/api/, ""),
+          rewrite: (path) => path.replace(/^\/server/, ''),
         },
       },
     },

@@ -16,26 +16,33 @@ const MenuList = lazy(
 const ArticleList = lazy(
   () => import('@/views/articleManagement/articleList/articleList')
 );
+
+const LayoutIndex = () => <Layout />;
 const routes = [
   {
     path: '/',
-    element: <Navigate to="/login" />,
+    element: <Navigate to="/home" />,
   },
   {
     path: '/login',
     element: <Login />,
   },
   {
-    element: <Layout />,
+    path: '/',
+    element: <LayoutIndex />,
     children: [
       {
-        path: '/basicInformation/roleManagement/roleList',
-        element: routeWithLoading(<RoleList />),
+        path: '/home',
+        element: <Home />,
       },
-      {
-        path: '/basicInformation/menuManagement/menuList',
-        element: routeWithLoading(<MenuList />),
-      },
+      // {
+      //   path: '/basicInformation/roleManagement/roleList',
+      //   element: routeWithLoading(<RoleList />),
+      // },
+      // {
+      //   path: '/basicInformation/menuManagement/menuList',
+      //   element: routeWithLoading(<MenuList />),
+      // },
       // {
       //   path: '/articleManagement/articleList',
       //   element: routeWithLoading(<ArticleList />),

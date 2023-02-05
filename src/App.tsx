@@ -1,4 +1,4 @@
-import { HashRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import Router from '@/routers';
 import AuthRouter from './routers/utils/authRouter';
 
@@ -7,11 +7,11 @@ function App() {
     <div className="App">
       {/* <Layout></Layout> */}
       {/* <Login></Login> */}
-      <HashRouter>
+      <BrowserRouter>
         <AuthRouter>
           <Router />
         </AuthRouter>
-      </HashRouter>
+      </BrowserRouter>
     </div>
   );
 }
