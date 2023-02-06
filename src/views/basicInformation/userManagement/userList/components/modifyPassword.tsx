@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Select } from 'antd';
 import api from '@/api';
+import { log } from 'console';
 import CommonSearchItem from '@/components/common/commonSearchItem';
 
 const ModifyPassword: React.FC = (props: any) => {
@@ -23,6 +24,7 @@ const ModifyPassword: React.FC = (props: any) => {
   };
   const handleCancel = () => {
     setShowModifyPassword(false);
+    console.log(123132123);
   };
   const useUserRole = (value: any) => {
     setRole(value);
