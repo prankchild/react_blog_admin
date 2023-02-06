@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 // 状态管理工具
 import { Provider } from 'react-redux';
-import 'antd/dist/reset.css';
+import 'antd/dist/antd.css';
 import 'animate.css';
 import { PersistGate } from 'redux-persist/integration/react';
 import 'reset-css';
