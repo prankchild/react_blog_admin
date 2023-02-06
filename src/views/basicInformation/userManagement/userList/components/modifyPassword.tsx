@@ -4,7 +4,7 @@ import api from '@/api';
 import CommonSearchItem from '@/components/common/commonSearchItem';
 
 const ModifyPassword: React.FC = (props: any) => {
-  const { showModifyPassword, roleId, editShowModifyPassword } = props;
+  const { showModifyPassword, roleId, setShowModifyPassword } = props;
   const [role, setRole] = useState(undefined);
   useEffect(() => {
     setRole(roleId);
@@ -19,10 +19,10 @@ const ModifyPassword: React.FC = (props: any) => {
     getRoleEnum();
   }, []);
   const handleOk = () => {
-    editShowModifyPassword();
+    setShowModifyPassword(false);
   };
   const handleCancel = () => {
-    editShowModifyPassword();
+    setShowModifyPassword(false);
   };
   const useUserRole = (value: any) => {
     setRole(value);
@@ -34,6 +34,8 @@ const ModifyPassword: React.FC = (props: any) => {
         open={showModifyPassword}
         onOk={handleOk}
         onCancel={handleCancel}
+        cancelText="取消"
+        okText="确认"
       >
         <CommonSearchItem label="用户角色">
           <Select

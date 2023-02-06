@@ -149,9 +149,6 @@ function UserList() {
     },
   ];
   const [showModifyPassword, setShowModifyPassword] = useState(false);
-  const editShowModifyPassword = () => {
-    setShowModifyPassword(true);
-  };
   const paginationChange = (page: number, size: number) => {
     const param = _.cloneDeep(params);
     param.page = page;
@@ -218,7 +215,7 @@ function UserList() {
       <ModifyPasswordModel
         showModifyPassword={showModifyPassword}
         roleId={roleId}
-        editShowModifyPassword={editShowModifyPassword}
+        setShowModifyPassword={setShowModifyPassword}
       />
     </div>
   );
