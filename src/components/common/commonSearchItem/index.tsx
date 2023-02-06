@@ -1,12 +1,12 @@
 import './index.scss';
 
 function CommonSearchItem(props: any) {
-  const { star, label = '默认', content } = props;
+  const { star, label = '默认' } = props;
   return (
     <div className="search-item">
-      {star ? <span className="mr-2 red">*</span> : ''}
-      {label ? <span className="mr-2 tittle">{label}:</span> : ''}
-      {content ? <span>{content}</span> : ''}
+      {star ? <span className="mr-1.5 red">*</span> : ''}
+      {label ? <div className="mr-2 title">{label}:</div> : ''}
+      {props.children}
     </div>
   );
 }

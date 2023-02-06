@@ -1,11 +1,18 @@
 import { request } from '@/network/request';
-import { LoginForm } from '@/types/requestData';
 
-export async function login(data: LoginForm) {
+export async function login(data: any) {
   return request({
     url: `/login`,
     method: 'POST',
     data,
+    showLoading: true,
+  });
+}
+// 获取角色枚举
+export async function getRoleEnum() {
+  return request({
+    url: `/common/getRoleEnum`,
+    method: 'GET',
     showLoading: true,
   });
 }
