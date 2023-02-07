@@ -229,7 +229,7 @@ function UserList() {
           <Button onClick={search}>查询</Button>
         </div>
       </CommonSearch>
-      <div className="table-card">
+      <div className="table-card ">
         <div className="button-area">
           <Button type="primary" onClick={showCreateAndUpdateChange}>
             新增用户
