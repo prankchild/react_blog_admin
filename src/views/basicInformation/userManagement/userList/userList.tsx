@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Input, Select, Table } from 'antd';
 import api from '@/api';
 import _ from 'lodash';
+import CreateAndUpdate from './components/createAndUpdate';
 import ModifyPasswordModel from './components/modifyPassword';
 import CommonSearch from '@/components/common/commonSearch';
 import CommonSearchItem from '@/components/common/commonSearchItem';
@@ -62,11 +63,6 @@ function UserList() {
   };
   const search = () => {
     searchUserList();
-  };
-  const [roleId, setRoleId] = useState(undefined);
-  const showModifyPasswordChange = (roleId: any) => {
-    setRoleId(roleId);
-    setShowModifyPassword(true);
   };
   const columns = [
     {
@@ -138,7 +134,12 @@ function UserList() {
           >
             更改角色
           </Button>
-          <Button type="primary" size="small" className="mr-4">
+          <Button
+            type="primary"
+            size="small"
+            className="mr-4"
+            onClick={() => showCreateAndUpdateChange(record)}
+          >
             编辑
           </Button>
           <Button type="primary" danger size="small">
@@ -148,7 +149,23 @@ function UserList() {
       ),
     },
   ];
+  const [roleId, setRoleId] = useState(undefined);
+  // 点击更改角色的回调
+  const showModifyPasswordChange = (roleId: any) => {
+    setRoleId(roleId);
+    setShowModifyPassword(true);
+  };
+  const [editUserInfo, setEditUserInfo] = useState(undefined);
+  // 点击编辑回调
+  const showCreateAndUpdateChange = (record: any) => {
+    setEditUserInfo(record);
+    setShowCreateAndUpdate(true);
+  };
+  // 显示更改密码模块
   const [showModifyPassword, setShowModifyPassword] = useState(false);
+  // 显示创造编辑模块
+  const [showCreateAndUpdate, setShowCreateAndUpdate] = useState(false);
+  // Table表格组件的分页组件的回调
   const paginationChange = (page: number, size: number) => {
     const param = _.cloneDeep(params);
     param.page = page;
@@ -212,10 +229,16 @@ function UserList() {
           }}
         />
       </div>
+      {/* 更改角色模块 */}
       <ModifyPasswordModel
         showModifyPassword={showModifyPassword}
         roleId={roleId}
         setShowModifyPassword={setShowModifyPassword}
+      />
+      <CreateAndUpdate
+        showCreateAndUpdate={showCreateAndUpdate}
+        editUserInfo={editUserInfo}
+        setShowCreateAndUpdate={setShowCreateAndUpdate}
       />
     </div>
   );

@@ -2,8 +2,20 @@ import * as types from '@/store/mutation-types';
 import produce from 'immer';
 import { AnyAction } from 'redux';
 
-const globalState = {
-  token: '初始默认undefined',
+interface GlobalState {
+  token: {
+    accessToken: string;
+    refreshToken: string;
+    tokenTime: string | Date;
+  };
+}
+
+const globalState: GlobalState = {
+  token: {
+    accessToken: '',
+    refreshToken: '',
+    tokenTime: '',
+  },
 };
 
 // global reducer

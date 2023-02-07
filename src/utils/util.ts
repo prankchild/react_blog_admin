@@ -21,10 +21,11 @@ export const getToken = () => {
 export const saveToken = (token: {
   accessToken: string;
   refreshToken: string;
+  tokenTime: Date;
 }) => {
-  const { accessToken, refreshToken } = token;
+  const { accessToken, refreshToken, tokenTime } = token;
   accessToken && localStorage.setItem('accessToken', accessToken);
-  accessToken && localStorage.setItem('accessTokenTime', new Date().toString());
+  tokenTime && localStorage.setItem('tokenTime', tokenTime.toString());
   refreshToken && localStorage.setItem('refreshToken', refreshToken);
 };
 export const to2 = () => {

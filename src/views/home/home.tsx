@@ -1,6 +1,4 @@
-import { connect } from 'react-redux';
 import { Button } from 'antd';
-import { setToken } from '@/store/modules/global/action';
 
 function Home(props: any) {
   console.log(props, 'props');
@@ -15,6 +13,4 @@ function Home(props: any) {
     </div>
   );
 }
-const mapStateToProps = (state: any) => state.global;
-const mapDispatchToProps = { setToken };
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;

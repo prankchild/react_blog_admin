@@ -1,23 +1,33 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button, Checkbox, Form, Input, message } from 'antd';
 import api from '@/api';
+import { setToken } from '@/store/modules/global/action';
 import { LoginFormType } from '@/types/requestData';
 import { LoginResult } from '@/types/requestResult';
 import { InfoOutlined, UserOutlined } from '@ant-design/icons';
 import { saveToken } from '@/utils/util';
 
 const LoginForm: React.FC = (props: any) => {
-  console.log(props, 'props');
-
+  const { setToken } = props;
   const navigate = useNavigate();
   const onFinish = async (form: LoginFormType) => {
-    const result: LoginResult = await api.login(form);
-    // 保存token到localStorage
-    saveToken(result);
-    // 跳转到Home
-    navigate('/home');
-    message.success('登录成功');
+    try {
+      const result: LoginResult = await api.login(form);
+      const tokenTime = new Date();
+      const token = {
+        ...result,
+        tokenTime,
+      };
+      // 保存到redux
+      setToken(token);
+      // 保存token到localStorage
+      saveToken(token);
+      // 跳转到Home
+      navigate('/home');
+      message.success('登录成功');
+    } catch (error) {}
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -69,5 +79,6 @@ const LoginForm: React.FC = (props: any) => {
     </Form>
   );
 };
-
-export default LoginForm;
+const mapStateToProps = (state: any) => state.global;
+const mapDispatchToProps = { setToken };
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

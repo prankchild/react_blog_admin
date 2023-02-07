@@ -1,8 +1,4 @@
-import { useEffect } from 'react';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import Layout from '@/layout/index';
-import Home from '@/views/home/home';
-import Login from '@/views/login/login';
+import { Navigate, useLocation } from 'react-router-dom';
 import { getToken } from '@/utils/util';
 
 /**
@@ -10,8 +6,6 @@ import { getToken } from '@/utils/util';
  * */
 const AuthRouter = (props: { children: JSX.Element }) => {
   const location = useLocation();
-  console.log(props, 'props');
-  //   const route = searchRoute(pathName,rootRouer)
   const { authorization } = getToken();
   if (location.pathname !== '/login' && !authorization)
     return <Navigate to="/login" replace />;

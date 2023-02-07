@@ -1,7 +1,7 @@
 import * as types from '@/store/mutation-types';
 
 // * setToken
-export const setToken = (token: number) => ({
+export const setToken = (token: object) => ({
   type: types.SET_TOKEN,
   token,
 });
