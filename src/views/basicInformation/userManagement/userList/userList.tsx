@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Button, Input, Select, Table } from 'antd';
 import api from '@/api';
 import _ from 'lodash';
+import AssignRoleModel from './components/assignRole';
 import CreateAndUpdate from './components/createAndUpdate';
-import ModifyPasswordModel from './components/modifyPassword';
 import CommonSearch from '@/components/common/commonSearch';
 import CommonSearchItem from '@/components/common/commonSearchItem';
 import './index.scss';
@@ -124,25 +124,34 @@ function UserList() {
       title: '操作',
       dataIndex: 'operation',
       key: 'operation',
-      width: 250,
+      width: 280,
       render: (_: any, record: { roleId: number }) => (
         <>
           <Button
             size="small"
-            className="mr-4"
-            onClick={() => showModifyPasswordChange(record.roleId)}
+            type="link"
+            className="mr-1"
+            onClick={() => showAssignRoleChange(record.roleId)}
           >
-            更改角色
+            指派角色
           </Button>
           <Button
-            type="primary"
             size="small"
-            className="mr-4"
+            type="link"
+            className="mr-1"
+            onClick={() => showAssignRoleChange(record.roleId)}
+          >
+            修改密码
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            className="mr-1"
             onClick={() => showCreateAndUpdateChange(record)}
           >
             编辑
           </Button>
-          <Button type="primary" danger size="small">
+          <Button type="link" danger size="small">
             删除
           </Button>
         </>
@@ -151,9 +160,9 @@ function UserList() {
   ];
   const [roleId, setRoleId] = useState(undefined);
   // 点击更改角色的回调
-  const showModifyPasswordChange = (roleId: any) => {
+  const showAssignRoleChange = (roleId: any) => {
     setRoleId(roleId);
-    setShowModifyPassword(true);
+    setShowAssignRole(true);
   };
   const [editUserInfo, setEditUserInfo] = useState(undefined);
   // 点击编辑回调
@@ -162,7 +171,7 @@ function UserList() {
     setShowCreateAndUpdate(true);
   };
   // 显示更改密码模块
-  const [showModifyPassword, setShowModifyPassword] = useState(false);
+  const [showAssignRole, setShowAssignRole] = useState(false);
   // 显示创造编辑模块
   const [showCreateAndUpdate, setShowCreateAndUpdate] = useState(false);
   // Table表格组件的分页组件的回调
@@ -172,6 +181,10 @@ function UserList() {
     param.size = size;
     setParams(param);
     searchUserList(param);
+  };
+  const createAndUpdateChange = () => {
+    setShowCreateAndUpdate(false);
+    search();
   };
   return (
     <div className="user_list">
@@ -217,6 +230,11 @@ function UserList() {
         </div>
       </CommonSearch>
       <div className="table-card">
+        <div className="button-area">
+          <Button type="primary" onClick={showCreateAndUpdateChange}>
+            新增用户
+          </Button>
+        </div>
         <Table
           columns={columns}
           dataSource={tableData.list}
@@ -230,15 +248,15 @@ function UserList() {
         />
       </div>
       {/* 更改角色模块 */}
-      <ModifyPasswordModel
-        showModifyPassword={showModifyPassword}
+      <AssignRoleModel
+        showAssignRole={showAssignRole}
         roleId={roleId}
-        setShowModifyPassword={setShowModifyPassword}
+        setShowAssignRole={setShowAssignRole}
       />
       <CreateAndUpdate
         showCreateAndUpdate={showCreateAndUpdate}
         editUserInfo={editUserInfo}
-        setShowCreateAndUpdate={setShowCreateAndUpdate}
+        createAndUpdateChange={createAndUpdateChange}
       />
     </div>
   );

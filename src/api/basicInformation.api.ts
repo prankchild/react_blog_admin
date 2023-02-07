@@ -9,3 +9,12 @@ export async function findUserList(data: any) {
     showLoading: true,
   });
 }
+// 创建用户
+export async function register(data: any) {
+  return request({
+    url: `/register`,
+    method: 'POST',
+    data,
+    showLoading: true,
+  });
+}

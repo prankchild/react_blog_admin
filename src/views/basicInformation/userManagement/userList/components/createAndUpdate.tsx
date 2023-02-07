@@ -1,44 +1,59 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, Modal, Switch } from 'antd';
+import { Form, Input, message, Modal, Radio } from 'antd';
+import api from '@/api';
 import _ from 'lodash';
+import { emailRule, nameRule, phoneRule, pwdRule } from '@/utils/validator';
 
 // htmlType="submit"
 const createAndUpdate: React.FC = (props: any) => {
   const [form] = Form.useForm();
-  const { showCreateAndUpdate, setShowCreateAndUpdate, editUserInfo } = props;
-  const [userInfo, setUserInfo] = useState({
-    account: undefined,
-    phone: undefined,
-    email: undefined,
-    describe: undefined,
-    status: false,
-  });
+  const { showCreateAndUpdate, createAndUpdateChange, editUserInfo } = props;
   const [title, setTitle] = useState('创建用户');
   useEffect(() => {
-    if (editUserInfo !== undefined) {
+    if (editUserInfo && editUserInfo.id) {
       const edit = _.cloneDeep(editUserInfo);
       form.setFieldsValue(edit);
-      setUserInfo(edit);
       setTitle('编辑用户');
     } else {
+      form.setFieldsValue({
+        account: undefined,
+        password: undefined,
+        confirmPassword: undefined,
+        describe: undefined,
+        email: undefined,
+        phone: undefined,
+        status: 0,
+      });
       setTitle('创建用户');
     }
     console.log(form, 'form');
   }, [editUserInfo]);
   const handleOk = async () => {
-    const formValue = await form.validateFields();
+    const formValue = _.cloneDeep(await form.validateFields());
+    formValue.avatar =
+      'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png';
     console.log(formValue, 'formValue');
-    setShowCreateAndUpdate(false);
+    if (title === '创建用户') {
+      await api.register(formValue);
+      message.success('创建用户成功');
+    }
+    createAndUpdateChange();
   };
   const handleCancel = () => {
-    setShowCreateAndUpdate(false);
+    createAndUpdateChange();
   };
-  const statusChange = (value: any) => {
-    console.log(value, `valuevalue`);
+  const verifySecondaryPassword = {
+    validator: (regExpObj, value) => {
+      if (form.getFieldsValue().password === value) {
+        return Promise.resolve();
+      }
+      return Promise.reject(new Error('两次输入密码不一致！'));
+    },
   };
   return (
     <>
       <Modal
+        forceRender
         title={title}
         open={showCreateAndUpdate}
         onOk={handleOk}
@@ -55,34 +70,56 @@ const createAndUpdate: React.FC = (props: any) => {
           <Form.Item
             label="名称"
             name="account"
-            rules={[{ required: true, message: '名称不可为空' }]}
+            rules={[{ required: true, message: '名称不可为空' }, nameRule]}
           >
-            <Input />
+            <Input placeholder="请输入名称，名称限制2~25个字，支持中英文、数字、字符" />
           </Form.Item>
           <Form.Item label="描述" name="describe">
-            <Input />
+            <Input placeholder="请输入描述" />
           </Form.Item>
           <Form.Item
             label="邮箱"
             name="email"
-            rules={[{ required: true, message: '邮箱不可为空！' }]}
+            rules={[{ required: true, message: '邮箱不可为空！' }, emailRule]}
           >
-            <Input />
+            <Input placeholder="请输入邮箱" />
           </Form.Item>
           <Form.Item
             label="状态"
             name="status"
             rules={[{ required: true, message: '状态不可为空！' }]}
           >
-            <Switch onChange={statusChange} />
+            <Radio.Group>
+              <Radio value={0}> 禁用 </Radio>
+              <Radio value={1}> 开启 </Radio>
+            </Radio.Group>
           </Form.Item>
           <Form.Item
             label="手机号码"
             name="phone"
-            rules={[{ required: true, message: '手机号码不可为空！' }]}
+            rules={[
+              { required: true, message: '手机号码不可为空！' },
+              phoneRule,
+            ]}
           >
-            <Input />
+            <Input placeholder="请输入手机号码" />
           </Form.Item>
+          {title === '创建用户' ? (
+            <>
+              <Form.Item label="密码" name="password" rules={[pwdRule]}>
+                <Input.Password placeholder="请输入第一次密码" />
+              </Form.Item>
+              <Form.Item
+                label="密码"
+                name="confirmPassword"
+                rules={[verifySecondaryPassword]}
+              >
+                <Input.Password placeholder="请再次输入密码" />
+              </Form.Item>
+            </>
+          ) : (
+            ''
+          )}
         </Form>
       </Modal>
     </>
