@@ -4,6 +4,7 @@ import LayoutContent from './components/content';
 import LayoutFooter from './components/footer';
 import LayoutHeader from './components/header';
 import LayoutSider from './components/sider';
+import './index.scss';
 
 const App: React.FC = () => {
   return (

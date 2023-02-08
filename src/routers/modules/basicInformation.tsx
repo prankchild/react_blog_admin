@@ -1,51 +1,49 @@
 import React, { lazy } from 'react';
+import { Navigate } from 'react-router-dom';
 import Layout from '@/layout';
 import Home from '@/views/home/home';
 
 const LayoutIndex = () => <Layout />;
 const UserList = lazy(
-  () => import('@/views/basicInformation/userManagement/userList/userList')
+  () => import('@/views/basicInformation/userManagement/userManagement')
 );
 const RoleList = lazy(
-  () => import('@/views/basicInformation/roleManagement/roleList/roleList')
+  () => import('@/views/basicInformation/roleManagement/roleManagement')
 );
 const MenuList = lazy(
-  () => import('@/views/basicInformation/menuManagement/menuList/menuList')
-);
-const ArticleList = lazy(
-  () => import('@/views/articleManagement/articleList/articleList')
+  () => import('@/views/basicInformation/menuManagement/menuManagement')
 );
 const basicInformation = [
   {
     path: '/',
     element: <LayoutIndex />,
-    meta: {},
+    meta: {
+      title: '基础信息管理',
+      key: 'basicInformation',
+    },
     children: [
       {
-        path: '/home',
-        element: <Home />,
+        path: '/basicInformation/menuManagement',
+        element: routeWithLoading(<MenuList />),
         meta: {
-          name: '首页',
+          title: '菜单管理',
+          key: 'menuManagement',
         },
       },
       {
-        path: '/basicInformation/roleManagement/roleList',
+        path: '/basicInformation/roleManagement',
         element: routeWithLoading(<RoleList />),
-        meta: {},
+        meta: {
+          title: '角色管理',
+          key: 'roleManagement',
+        },
       },
       {
-        path: '/basicInformation/menuManagement/menuList',
-        element: routeWithLoading(<MenuList />),
-      },
-      {
-        path: '/basicInformation/articleManagement/articleList',
-        element: routeWithLoading(<ArticleList />),
-      },
-      {
-        path: '/basicInformation/userManagement/userList',
+        path: '/basicInformation/userManagement',
         element: routeWithLoading(<UserList />),
         meta: {
-          name: '用户列表',
+          title: '用户管理',
+          key: 'userManagement',
         },
       },
     ],

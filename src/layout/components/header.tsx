@@ -1,13 +1,11 @@
+import Avatar from './avatar';
+
 function LayoutHeader() {
   return (
     <header className="header">
-      <div
-        style={{
-          height: '50px',
-          background: '#fff',
-          boxShadow: '0 1px 4px #00152914',
-        }}
-      ></div>
+      <div className="header-container">
+        <Avatar />
+      </div>
     </header>
   );
 }
