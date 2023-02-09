@@ -1,0 +1,16 @@
+.warning-modal {
+  .modal-content {
+    .modal-warning {
+      display: flex;
+      align-items: center;
+      .warning-icon {
+        color: #e6963e;
+      }
+      .warning-icon-danger {
+        color: #ff5654 !important;
+      }
+      .warning-text {
+      }
+    }
+  }
+}

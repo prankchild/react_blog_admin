@@ -2,6 +2,7 @@ import React from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
 import Login from '@/views/login/login';
 import basicInformation from './modules/basicInformation';
+import home from './modules/home';
 
 export const routes = [
   {
@@ -12,6 +13,7 @@ export const routes = [
     path: '/login',
     element: <Login />,
   },
+  ...home,
   ...basicInformation,
   {
     path: '*',

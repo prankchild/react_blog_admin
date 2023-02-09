@@ -16,17 +16,17 @@ const menuItems = [
     children: [
       {
         label: '菜单管理',
-        key: '/basicInformation/menuManagement/menuList',
+        key: '/basicInformation/menuManagement',
         icon: <PieChartOutlined />,
       },
       {
         label: '角色管理',
-        key: '/basicInformation/roleManagement/roleList',
+        key: '/basicInformation/roleManagement',
         icon: <PieChartOutlined />,
       },
       {
         label: '用户管理',
-        key: '/basicInformation/userManagement/userList',
+        key: '/basicInformation/userManagement',
         icon: <PieChartOutlined />,
       },
     ],

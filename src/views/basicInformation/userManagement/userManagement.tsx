@@ -6,6 +6,7 @@ import AssignRoleModel from './components/assignRole';
 import CreateAndUpdate from './components/createAndUpdate';
 import CommonSearch from '@/components/common/commonSearch';
 import CommonSearchItem from '@/components/common/commonSearchItem';
+import WarningModal from '@/components/common/warningModal';
 import './index.scss';
 
 const { Option } = Select;
@@ -26,44 +27,7 @@ function UserList() {
     getRoleEnum();
     searchUserList();
   }, []);
-  // 角色枚举
-  const [roleEnum, setRoleEnum] = useState([]);
-  // 用户列表
-  const [tableData, setTableData] = useState({
-    list: [],
-    total: 1,
-  });
-  const useUserState = (value: any) => {
-    setParams({ ...params, state: value });
-  };
-  const useUserAccount = (change: any) => {
-    // params.account = change.target.value;
-    const account = change.target.value;
-    setParams({ ...params, account });
-  };
-  const useUserRole = (value: any) => {
-    const roleId = value;
-    setParams({ ...params, roleId });
-  };
-  const searchReset = async () => {
-    const reset = {
-      account: undefined,
-      state: undefined,
-      roleId: undefined,
-      page: 1,
-      size: 10,
-    };
-    // 异步
-    setParams(reset);
-    searchUserList(reset);
-  };
-  const searchUserList = async (data = params) => {
-    const result = await api.findUserList(data);
-    setTableData(result);
-  };
-  const search = () => {
-    searchUserList();
-  };
+  // 列表的表头
   const columns = [
     {
       title: '唯一值',
@@ -139,9 +103,9 @@ function UserList() {
             size="small"
             type="link"
             className="mr-1"
-            onClick={() => showAssignRoleChange(record.roleId)}
+            onClick={() => resetPassword(record)}
           >
-            修改密码
+            重置密码
           </Button>
           <Button
             type="link"
@@ -151,13 +115,61 @@ function UserList() {
           >
             编辑
           </Button>
-          <Button type="link" danger size="small">
+          <Button
+            type="link"
+            danger
+            size="small"
+            onClick={() => showDelModalChange(record)}
+          >
             删除
           </Button>
         </>
       ),
     },
   ];
+  // 角色枚举
+  const [roleEnum, setRoleEnum] = useState([]);
+  // 用户列表
+  const [tableData, setTableData] = useState({
+    list: [],
+    total: 1,
+  });
+  const useUserState = (value: any) => {
+    setParams({ ...params, state: value });
+  };
+  const useUserAccount = (change: any) => {
+    // params.account = change.target.value;
+    const account = change.target.value;
+    setParams({ ...params, account });
+  };
+  const useUserRole = (value: any) => {
+    const roleId = value;
+    setParams({ ...params, roleId });
+  };
+  const searchReset = async () => {
+    const reset = {
+      account: undefined,
+      state: undefined,
+      roleId: undefined,
+      page: 1,
+      size: 10,
+    };
+    // 异步
+    setParams(reset);
+    searchUserList(reset);
+  };
+  // 查询的loading
+  const [tableLoading, setTableLoading] = useState(false);
+  const searchUserList = async (data = params) => {
+    setTableLoading(true);
+    const result = await api.findUserList(data);
+    setTableData(result);
+    setTableLoading(false);
+  };
+  const search = () => {
+    searchUserList();
+  };
+
   const [roleId, setRoleId] = useState(undefined);
   // 点击更改角色的回调
   const showAssignRoleChange = (roleId: any) => {
@@ -185,6 +197,47 @@ function UserList() {
   const createAndUpdateChange = () => {
     setShowCreateAndUpdate(false);
     search();
+  };
+  // 警告框的数据
+  const [warningOptions, setWarningOptions] = useState({
+    showWarning: false,
+    content: '请确认是否该操作？',
+    option: 'delete',
+    params: {},
+  });
+  // 重置警告框的数据
+  const resetWarningOptions = (showWarning: boolean) => {
+    setWarningOptions({
+      showWarning: showWarning,
+      content: '请确认是否该操作？',
+      option: 'delete',
+      params: {},
+    });
+  };
+  // 删除用户
+  const showDelModalChange = (record: any) => {
+    setWarningOptions({
+      showWarning: true,
+      content: `是否删除该用户${record.account}？`,
+      option: 'delete',
+      params: { record },
+    });
+  };
+  // 警告框的回调
+  const warningConfirm = () => {
+    resetWarningOptions(false);
+  };
+  const warningCancel = () => {
+    resetWarningOptions(false);
+  };
+  // 重置密码
+  const resetPassword = (record: any) => {
+    setWarningOptions({
+      showWarning: true,
+      content: `是否重置${record.account}的密码？`,
+      option: 'resetPassword',
+      params: { record },
+    });
   };
   return (
     <div className="user_list">
@@ -236,6 +289,7 @@ function UserList() {
           </Button>
         </div>
         <Table
+          loading={tableLoading}
           columns={columns}
           dataSource={tableData.list}
           rowKey="id"
@@ -257,6 +311,13 @@ function UserList() {
         showCreateAndUpdate={showCreateAndUpdate}
         editUserInfo={editUserInfo}
         createAndUpdateChange={createAndUpdateChange}
+      />
+      <WarningModal
+        showModal={warningOptions.showWarning}
+        content={warningOptions.content}
+        danger={true}
+        confirm={warningConfirm}
+        cancel={warningCancel}
       />
     </div>
   );
