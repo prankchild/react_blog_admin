@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Form, Input, message, Modal, Radio } from 'antd';
 import api from '@/api';
 import _ from 'lodash';
 import { emailRule, nameRule, phoneRule, pwdRule } from '@/utils/validator';
 
 // htmlType="submit"
-const createAndUpdate: React.FC = (props: any) => {
-  const [form] = Form.useForm();
+const CreateAndUpdate = (props: any) => {
   const { showCreateAndUpdate, createAndUpdateChange, editUserInfo } = props;
   const [title, setTitle] = useState('创建用户');
+  const [form] = Form.useForm();
   useEffect(() => {
     if (editUserInfo && editUserInfo.id) {
       const edit = _.cloneDeep(editUserInfo);
@@ -36,8 +36,12 @@ const createAndUpdate: React.FC = (props: any) => {
     if (title === '创建用户') {
       await api.register(formValue);
       message.success('创建用户成功');
+      createAndUpdateChange();
+    } else {
+      formValue.id = editUserInfo.id;
+      await api.updateUser(formValue);
+      createAndUpdateChange();
     }
-    createAndUpdateChange();
   };
   const handleCancel = () => {
     createAndUpdateChange();
@@ -126,4 +130,4 @@ const createAndUpdate: React.FC = (props: any) => {
   );
 };
 
-export default createAndUpdate;
+export default CreateAndUpdate;

@@ -1,14 +1,11 @@
 import { Outlet } from 'react-router-dom';
 import { Layout } from 'antd';
-import routes from '@/routers';
-import LayoutCrumbs from './crumbs';
 
 const { Content } = Layout;
 function LayoutContent(props: any) {
   const { colorBgContainer } = props;
   return (
     <Content style={{ margin: '0 16px' }}>
-      <LayoutCrumbs />
       <div
         style={{
           minHeight: 'calc(100vh - 160px)',

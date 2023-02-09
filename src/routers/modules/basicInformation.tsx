@@ -19,17 +19,9 @@ const basicInformation = [
     element: <LayoutIndex />,
     meta: {
       title: '基础信息管理',
+      key: 'basicInformation',
     },
     children: [
-      {
-        path: '/basicInformation',
-        element: <Navigate to="/basicInformation/menuManagement" />,
-        meta: {
-          navigate: true,
-          title: '菜单管理',
-          key: 'menuManagement',
-        },
-      },
       {
         path: '/basicInformation/menuManagement',
         element: routeWithLoading(<MenuList />),

@@ -18,3 +18,21 @@ export async function register(data: any) {
     showLoading: true,
   });
 }
+// 修改用户信息 ----
+export async function updateUser(data: any) {
+  return request({
+    url: `/user/update`,
+    method: 'POST',
+    data,
+    showLoading: true,
+  });
+}
+// 修改用户角色
+export async function createAndUpdateRole(data: any) {
+  return request({
+    url: `/user/createAndUpdateRole`,
+    method: 'POST',
+    data,
+    showLoading: true,
+  });
+}

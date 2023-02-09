@@ -13,7 +13,7 @@ const App: React.FC = () => {
       <Layout className="site-layout">
         <LayoutHeader />
         <LayoutContent />
-        <LayoutFooter />
+        {/* <LayoutFooter /> */}
       </Layout>
     </Layout>
   );

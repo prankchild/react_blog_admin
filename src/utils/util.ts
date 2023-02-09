@@ -28,11 +28,3 @@ export const saveToken = (token: {
   tokenTime && localStorage.setItem('tokenTime', tokenTime.toString());
   refreshToken && localStorage.setItem('refreshToken', refreshToken);
 };
-export const to2 = () => {
-  window.localStorage.setItem('authorization', '');
-  window.localStorage.setItem('userInfo', '');
-  window.localStorage.setItem('tabArr', '');
-  window.localStorage.setItem('btnArr', '');
-  // router.push('/login');
-  // location.reload();
-};

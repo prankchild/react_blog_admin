@@ -26,13 +26,19 @@ function LayoutCrumbs() {
   };
   const breadcrumb = getBreadcrumb();
   return (
-    <Breadcrumb style={{ margin: '8px 0' }} separator=">">
-      {/* <Breadcrumb.Item>User</Breadcrumb.Item>
+    <div className="crumbs ml-6">
+      <Breadcrumb style={{ margin: '8px 0' }} separator=">">
+        {/* <Breadcrumb.Item>User</Breadcrumb.Item>
       <Breadcrumb.Item>Bill</Breadcrumb.Item> */}
-      {breadcrumb.map((item, index) => {
-        return <Breadcrumb.Item key={item}>{item}</Breadcrumb.Item>;
-      })}
-    </Breadcrumb>
+        {breadcrumb.map((item, index) => {
+          return (
+            <Breadcrumb.Item key={item} className="text-sm">
+              {item}
+            </Breadcrumb.Item>
+          );
+        })}
+      </Breadcrumb>
+    </div>
   );
 }
 

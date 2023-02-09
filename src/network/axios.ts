@@ -5,7 +5,8 @@ import axios, {
   AxiosRequestConfig,
   AxiosResponse,
 } from 'axios';
-import { getToken, saveToken, to2 } from '@/utils/util';
+import { getToken, saveToken } from '@/utils/util';
+import { to2 } from '@/utils/utils';
 
 // const apiBaseUrl: string = import.meta.env.VITE_APP_BASE_URL;
 const apiBaseUrl: string = 'http://127.0.0.1:8111/server/api';

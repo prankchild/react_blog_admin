@@ -4,7 +4,7 @@ import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './index.scss';
 
-const WarningModal: React.FC = (props: any) => {
+const WarningModal = (props: any) => {
   const { showModal, content, confirm, cancel, danger, title } = props;
   return (
     <>

@@ -4,7 +4,7 @@ const { Footer } = Layout;
 
 function LayoutFooter() {
   return (
-    <Footer style={{ textAlign: 'center' }}>
+    <Footer className="py-8 text-center">
       Ant Design ©2023 Created by Ant UED
     </Footer>
   );

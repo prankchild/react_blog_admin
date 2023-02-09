@@ -1,4 +1,5 @@
 export interface MetaProps {
+  redirect?: boolean;
   keepAlive?: boolean;
   requiresAuth?: boolean;
   title: string;

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Select } from 'antd';
+import { message, Modal, Select } from 'antd';
 import api from '@/api';
 import CommonSearchItem from '@/components/common/commonSearchItem';
 
-const AssignRole: React.FC = (props: any) => {
-  const { showAssignRole, roleId, setShowAssignRole } = props;
+const AssignRole = (props: any) => {
+  const { showAssignRole, userInfo, assignRoleChange } = props;
   const [role, setRole] = useState(undefined);
   useEffect(() => {
-    setRole(roleId);
-  }, [roleId]);
+    setRole(userInfo.roleId);
+  }, [userInfo]);
   // 角色枚举
   const [roleEnum, setRoleEnum] = useState([]);
   const getRoleEnum = async () => {
@@ -18,12 +18,20 @@ const AssignRole: React.FC = (props: any) => {
   useEffect(() => {
     getRoleEnum();
   }, []);
-  const handleOk = () => {
-    setShowAssignRole(false);
+  const handleOk = async () => {
+    try {
+      await api.createAndUpdateRole({
+        roleId: role,
+        userId: userInfo.id,
+      });
+      message.success('修改用户角色成功');
+      assignRoleChange();
+    } catch (error) {
+      console.log(error);
+    }
   };
   const handleCancel = () => {
-    setShowAssignRole(false);
-    console.log(123132123);
+    assignRoleChange();
   };
   const useUserRole = (value: any) => {
     setRole(value);

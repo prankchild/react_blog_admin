@@ -6,11 +6,12 @@ import AssignRoleModel from './components/assignRole';
 import CreateAndUpdate from './components/createAndUpdate';
 import CommonSearch from '@/components/common/commonSearch';
 import CommonSearchItem from '@/components/common/commonSearchItem';
+import CommonTable from '@/components/common/commonTable';
 import WarningModal from '@/components/common/warningModal';
 import './index.scss';
 
 const { Option } = Select;
-function UserList() {
+const UserList = () => {
   const getRoleEnum = async () => {
     const roleEnum = await api.getRoleEnum();
     setRoleEnum(roleEnum);
@@ -34,16 +35,6 @@ function UserList() {
       dataIndex: 'id',
       key: '',
     },
-    // {
-    //   title: '头像',
-    //   dataIndex: 'avatar',
-    //   key: 'avatar',
-    //   render: (_, record) => (
-    //     <div className="user_avatar_container">
-    //       <img src={record.avatar} alt="" />
-    //     </div>
-    //   ),
-    // },
     {
       title: '名称',
       dataIndex: 'account',
@@ -89,13 +80,13 @@ function UserList() {
       dataIndex: 'operation',
       key: 'operation',
       width: 280,
-      render: (_: any, record: { roleId: number }) => (
+      render: (_: any, record: any) => (
         <>
           <Button
             size="small"
             type="link"
             className="mr-1"
-            onClick={() => showAssignRoleChange(record.roleId)}
+            onClick={() => showAssignRoleChange(record)}
           >
             指派角色
           </Button>
@@ -170,10 +161,10 @@ function UserList() {
     searchUserList();
   };
 
-  const [roleId, setRoleId] = useState(undefined);
+  const [assignRoleUserInfo, setAssignRoleUserInfo] = useState({});
   // 点击更改角色的回调
-  const showAssignRoleChange = (roleId: any) => {
-    setRoleId(roleId);
+  const showAssignRoleChange = (userInfo: any) => {
+    setAssignRoleUserInfo(userInfo);
     setShowAssignRole(true);
   };
   const [editUserInfo, setEditUserInfo] = useState(undefined);
@@ -196,6 +187,10 @@ function UserList() {
   };
   const createAndUpdateChange = () => {
     setShowCreateAndUpdate(false);
+    search();
+  };
+  const assignRoleChange = () => {
+    setShowAssignRole(false);
     search();
   };
   // 警告框的数据
@@ -288,7 +283,7 @@ function UserList() {
             新增用户
           </Button>
         </div>
-        <Table
+        <CommonTable
           loading={tableLoading}
           columns={columns}
           dataSource={tableData.list}
@@ -304,8 +299,8 @@ function UserList() {
       {/* 更改角色模块 */}
       <AssignRoleModel
         showAssignRole={showAssignRole}
-        roleId={roleId}
-        setShowAssignRole={setShowAssignRole}
+        userInfo={assignRoleUserInfo}
+        assignRoleChange={assignRoleChange}
       />
       <CreateAndUpdate
         showCreateAndUpdate={showCreateAndUpdate}
@@ -321,6 +316,6 @@ function UserList() {
       />
     </div>
   );
-}
+};
 
 export default UserList;
