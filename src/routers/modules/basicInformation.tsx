@@ -19,7 +19,7 @@ const basicInformation = [
     element: <LayoutIndex />,
     meta: {
       title: '基础信息管理',
-      key: 'basicInformation',
+      key: 'menuManagement',
     },
     children: [
       {
