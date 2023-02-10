@@ -40,6 +40,7 @@ const CreateAndUpdate = (props: any) => {
     } else {
       formValue.id = editUserInfo.id;
       await api.updateUser(formValue);
+      message.success('修改用户信息成功');
       createAndUpdateChange();
     }
   };
@@ -47,7 +48,7 @@ const CreateAndUpdate = (props: any) => {
     createAndUpdateChange();
   };
   const verifySecondaryPassword = {
-    validator: (regExpObj, value) => {
+    validator: (regExpObj: any, value: any) => {
       if (form.getFieldsValue().password === value) {
         return Promise.resolve();
       }
@@ -65,6 +66,7 @@ const CreateAndUpdate = (props: any) => {
         onCancel={handleCancel}
       >
         <Form
+          className=""
           name="basic"
           form={form}
           labelCol={{ span: 4 }}

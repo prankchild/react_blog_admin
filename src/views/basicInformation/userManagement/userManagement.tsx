@@ -288,7 +288,7 @@ const UserList = () => {
           columns={columns}
           dataSource={tableData.list}
           rowKey="id"
-          scroll={true}
+          scroll={{ y: '600px' }}
           pagination={{
             pageSize: params.size,
             showSizeChanger: true,

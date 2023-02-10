@@ -36,3 +36,12 @@ export async function createAndUpdateRole(data: any) {
     showLoading: true,
   });
 }
+// 用户角色列表
+export async function findRoleList(data: any) {
+  return request({
+    url: `/role/findRoleList`,
+    method: 'POST',
+    data,
+    showLoading: true,
+  });
+}
