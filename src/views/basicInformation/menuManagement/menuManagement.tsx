@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { Button, Input } from 'antd';
 import api from '@/api';
 import _ from 'lodash';
-import CommonSearch from '@/components/common/commonSearch';
-import CommonSearchItem from '@/components/common/commonSearchItem';
+import CreateAndUpdate from './components/createAndUpdate';
 import CommonTable from '@/components/common/commonTable';
+import './index.scss';
 
 interface MenuType {
   id: string;
@@ -16,24 +16,50 @@ interface MenuType {
   updateDate: string;
 }
 function MenuList() {
-  const [tableData, setTableData] = useState<{
-    list: MenuType[];
-    total: Number;
-  }>({
-    list: [],
-    total: 1,
-  });
+  const [tableData, setTableData] = useState<Array<any>>([]);
   useEffect(() => {
     searchMenuList();
   }, []);
-  const availableRange = ['博客页面', '后台管理系统', '全部'];
   const columns = [
     {
       title: '唯一值',
       dataIndex: 'id',
       key: 'id',
       width: 80,
-      // align: 'center',
+    },
+    {
+      title: '菜单名称',
+      dataIndex: 'menuName',
+      key: 'menuName',
+    },
+    {
+      title: '菜单类型',
+      dataIndex: 'menuType',
+      key: 'menuType',
+    },
+    {
+      title: '菜单状态',
+      dataIndex: 'menuStatus',
+      key: 'menuStatus',
+      render: (_: any, record: { menuStatus: string }) => (
+        <>
+          {Number(record.menuStatus) === 0 ? (
+            <span>关闭</span>
+          ) : (
+            <span>开启</span>
+          )}{' '}
+        </>
+      ),
+    },
+    {
+      title: '排序',
+      dataIndex: 'sort',
+      key: 'sort',
+    },
+    {
+      title: '备注',
+      dataIndex: 'remark',
+      key: 'remark',
     },
     {
       title: '创建时间',
@@ -57,59 +83,59 @@ function MenuList() {
       ),
     },
   ];
-  const [tableLoading, setTableLoading] = useState(false);
-  // 初始化查询用户列表信息
-  const [params, setParams] = useState({
-    name: undefined,
-    page: 1,
-    size: 10,
+  const [createAndUpdateData, setCreateAndUpdateData] = useState({
+    show: false,
+    params: {},
+    create: false,
+    update: false,
   });
-  const search = async () => {
-    searchMenuList();
+  const createAndUpdateChange = (bol: boolean) => {
+    setCreateAndUpdateData({
+      show: false,
+      params: {},
+      create: false,
+      update: false,
+    });
+    if (bol) {
+      searchMenuList();
+    }
   };
-  const searchMenuList = async (data = params) => {
+  const [tableLoading, setTableLoading] = useState(false);
+  const searchMenuList = async () => {
     setTableLoading(true);
-    const result = await api.findMenuList(data);
+    const result = await api.findMenuList();
     setTableData(result);
     setTableLoading(false);
   };
-  const paginationChange = (page: number, size: number) => {
-    const param = _.cloneDeep(params);
-    param.page = page;
-    param.size = size;
-    setParams(param);
-    searchMenuList(param);
+  const createMenu = () => {
+    setCreateAndUpdateData({
+      show: true,
+      params: {},
+      create: true,
+      update: false,
+    });
   };
   return (
-    <div className="Menu_list">
-      <CommonSearch>
-        <div className="search-condition">
-          <CommonSearchItem label="角色名称">
-            <Input placeholder="请输入用户名称" className="w-44"></Input>
-          </CommonSearchItem>
-        </div>
-        <div className="search-button">
-          <Button className="mr-4">重置</Button>
-          <Button>查询</Button>
-        </div>
-      </CommonSearch>
+    <div className="menu_list">
       <div className="table-card ">
         <div className="button-area">
-          <Button type="primary">新增用户</Button>
+          <Button type="primary" onClick={createMenu}>
+            新增菜单
+          </Button>
         </div>
         <CommonTable
           rowKey="id"
-          scroll={{ y: '600px' }}
+          scroll={{ y: '800px' }}
           columns={columns}
-          dataSource={tableData.list}
-          pagination={{
-            pageSize: params.size,
-            showSizeChanger: true,
-            pageSizeOptions: [2, 10, 20, 50, 100],
-            onChange: paginationChange,
-          }}
+          loading={tableLoading}
+          dataSource={tableData}
+          pagination={false}
         />
       </div>
+      <CreateAndUpdate
+        createAndUpdateData={createAndUpdateData}
+        createAndUpdateChange={createAndUpdateChange}
+      />
     </div>
   );
 }

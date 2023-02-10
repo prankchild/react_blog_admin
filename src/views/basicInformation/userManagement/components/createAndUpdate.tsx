@@ -64,6 +64,8 @@ const CreateAndUpdate = (props: any) => {
         onOk={handleOk}
         okButtonProps={{ htmlType: 'submit' }}
         onCancel={handleCancel}
+        cancelText="取消"
+        okText="确认"
       >
         <Form
           className=""

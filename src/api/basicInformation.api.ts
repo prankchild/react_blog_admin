@@ -45,3 +45,21 @@ export async function findRoleList(data: any) {
     showLoading: true,
   });
 }
+//
+// 菜单列表
+export async function findMenuList(data: any) {
+  return request({
+    url: `/menu/findMenuList`,
+    method: 'POST',
+    data,
+    showLoading: true,
+  });
+}
+export async function createMenu(data: any) {
+  return request({
+    url: `/menu/createMenu`,
+    method: 'POST',
+    data,
+    showLoading: true,
+  });
+}
