@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Button, Input } from 'antd';
 import api from '@/api';
 import _ from 'lodash';
+import RolePermissions from './components/rolePermissions';
 import CommonSearch from '@/components/common/commonSearch';
 import CommonSearchItem from '@/components/common/commonSearchItem';
 import CommonTable from '@/components/common/commonTable';
@@ -85,9 +86,17 @@ function RoleList() {
       title: '操作',
       dataIndex: 'options',
       key: 'options',
-      width: 140,
+      width: 200,
       render: (_: any, record: RoleType) => (
         <>
+          <Button
+            size="small"
+            type="link"
+            className="mr-1"
+            onClick={() => assignPermissions(record)}
+          >
+            分配权限
+          </Button>
           <Button size="small" type="link" className="mr-1">
             编辑
           </Button>
@@ -98,6 +107,27 @@ function RoleList() {
       ),
     },
   ];
+  // 分配权限按钮回调
+  const assignPermissions = (record: any) => {
+    setRolePermissionsData({
+      show: true,
+      params: record,
+    });
+  };
+  // 分配权限组件回调
+  const rolePermissionsChange = (bol: boolean) => {
+    setRolePermissionsData({
+      show: false,
+      params: {},
+    });
+    if (bol) {
+      search();
+    }
+  };
+  const [rolePermissionsData, setRolePermissionsData] = useState({
+    show: false,
+    params: {},
+  });
   const [tableLoading, setTableLoading] = useState(false);
   // 初始化查询用户列表信息
   const [params, setParams] = useState({
@@ -151,6 +181,10 @@ function RoleList() {
           }}
         />
       </div>
+      <RolePermissions
+        rolePermissionsData={rolePermissionsData}
+        rolePermissionsChange={rolePermissionsChange}
+      />
     </div>
   );
 }

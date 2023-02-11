@@ -63,3 +63,29 @@ export async function createMenu(data: any) {
     showLoading: true,
   });
 }
+export async function updateMenu(data: any) {
+  return request({
+    url: `/menu/updateMenu`,
+    method: 'POST',
+    data,
+    showLoading: true,
+  });
+}
+// 查询角色拥有的菜单权限
+export async function findRoleMenu(data: any) {
+  return request({
+    url: `/role/findRoleMenu`,
+    method: 'POST',
+    data,
+    showLoading: true,
+  });
+}
+// 分配角色菜单权限
+export async function assignPermissions(data: any) {
+  return request({
+    url: `/role/assignPermissions`,
+    method: 'POST',
+    data,
+    showLoading: true,
+  });
+}

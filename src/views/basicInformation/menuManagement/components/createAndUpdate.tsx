@@ -16,19 +16,43 @@ const { TextArea } = Input;
 // htmlType="submit"
 const CreateAndUpdate = (props: any) => {
   const { createAndUpdateData, createAndUpdateChange } = props;
-  const [title, setTitle] = useState('创建用户');
+  const [title, setTitle] = useState('新增菜单');
   const [menuList, setMenuList] = useState([]);
   const [form] = Form.useForm();
   useEffect(() => {
-    searchMenuList();
+    if (createAndUpdateData.create || createAndUpdateData.update) {
+      searchMenuList();
+    }
+    if (createAndUpdateData.create) {
+      setTitle('新增菜单');
+      form.resetFields();
+    } else {
+      setTitle('编辑菜单');
+      const menu = _.cloneDeep(createAndUpdateData.params);
+      if (menu.otherProperties) {
+        menu.otherProperties = JSON.stringify(menu.otherProperties);
+      }
+      form.setFieldsValue(menu);
+    }
   }, [createAndUpdateData]);
   const handleOk = async () => {
     const formValue = _.cloneDeep(await form.validateFields());
-    console.log(formValue, 'formValue');
+    const menu = _.cloneDeep(formValue);
+    if (menu.otherProperties) {
+      menu.otherProperties = JSON.parse(menu.otherProperties);
+    } else {
+      menu.otherProperties = '';
+    }
     if (createAndUpdateData.create) {
       // 创建
       await api.createMenu(formValue);
       message.success('创建菜单成功');
+      createAndUpdateChange(true);
+    } else {
+      // 编辑
+      formValue.id = createAndUpdateData.params.id;
+      await api.updateMenu(formValue);
+      message.success('修改菜单成功');
       createAndUpdateChange(true);
     }
   };
@@ -36,7 +60,9 @@ const CreateAndUpdate = (props: any) => {
     const result = await api.findMenuList();
     setMenuList(result);
   };
-  const handleCancel = () => {};
+  const handleCancel = () => {
+    createAndUpdateChange(false);
+  };
   return (
     <>
       <Modal
@@ -105,8 +131,8 @@ const CreateAndUpdate = (props: any) => {
               rules={[{ required: true, message: '状态不可为空' }]}
             >
               <Radio.Group>
-                <Radio value="1">开启</Radio>
-                <Radio value="0">关闭</Radio>
+                <Radio value={1}>开启</Radio>
+                <Radio value={0}>关闭</Radio>
               </Radio.Group>
             </Form.Item>
             <Form.Item
@@ -120,12 +146,23 @@ const CreateAndUpdate = (props: any) => {
                 style={{ width: '100%' }}
               />
             </Form.Item>
+            <Form.Item label="菜单编码" name="menuCode">
+              <InputNumber
+                placeholder="无需填写，自动生成"
+                disabled
+                min={0}
+                style={{ width: '100%' }}
+              />
+            </Form.Item>
             <Form.Item
               label="键值"
               name="menuKey"
               rules={[{ required: true, message: '键值不可为空' }]}
             >
               <Input placeholder="请输入键值" />
+            </Form.Item>
+            <Form.Item label="备注" name="remark">
+              <Input placeholder="请输入备注" />
             </Form.Item>
             <Form.Item label="其他属性" name="otherProperties">
               <TextArea rows={4} placeholder="其他属性为JSON格式" />

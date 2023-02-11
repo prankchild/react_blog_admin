@@ -17,16 +17,11 @@ interface MenuType {
 }
 function MenuList() {
   const [tableData, setTableData] = useState<Array<any>>([]);
+  const menuTypeList = ['菜单夹', '功能模块', 'tab页', '按钮'];
   useEffect(() => {
     searchMenuList();
   }, []);
   const columns = [
-    {
-      title: '唯一值',
-      dataIndex: 'id',
-      key: 'id',
-      width: 80,
-    },
     {
       title: '菜单名称',
       dataIndex: 'menuName',
@@ -36,11 +31,15 @@ function MenuList() {
       title: '菜单类型',
       dataIndex: 'menuType',
       key: 'menuType',
+      render: (_: any, record: { menuType: string }) => (
+        <>{menuTypeList[Number(record.menuType)]}</>
+      ),
     },
     {
       title: '菜单状态',
       dataIndex: 'menuStatus',
       key: 'menuStatus',
+      width: 100,
       render: (_: any, record: { menuStatus: string }) => (
         <>
           {Number(record.menuStatus) === 0 ? (
@@ -55,6 +54,12 @@ function MenuList() {
       title: '排序',
       dataIndex: 'sort',
       key: 'sort',
+      width: 100,
+    },
+    {
+      title: '键值',
+      dataIndex: 'menuKey',
+      key: 'menuKey',
     },
     {
       title: '备注',
@@ -73,7 +78,12 @@ function MenuList() {
       width: 140,
       render: (_: any, record: MenuType) => (
         <>
-          <Button size="small" type="link" className="mr-1">
+          <Button
+            size="small"
+            type="link"
+            className="mr-1"
+            onClick={() => updateMenu(record)}
+          >
             编辑
           </Button>
           <Button size="small" danger type="link" className="mr-1">
@@ -115,6 +125,14 @@ function MenuList() {
       update: false,
     });
   };
+  const updateMenu = (record: any) => {
+    setCreateAndUpdateData({
+      show: true,
+      params: record,
+      create: false,
+      update: true,
+    });
+  };
   return (
     <div className="menu_list">
       <div className="table-card ">
@@ -125,7 +143,7 @@ function MenuList() {
         </div>
         <CommonTable
           rowKey="id"
-          scroll={{ y: '800px' }}
+          scroll={{ y: '630px' }}
           columns={columns}
           loading={tableLoading}
           dataSource={tableData}
